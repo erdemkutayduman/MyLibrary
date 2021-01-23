@@ -1,68 +1,54 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 
 namespace MyDictionary
 {
-    class Gun4Odev5
+    class Gun4Odev5<TVal, TKey>
     {
-        public static void Main(string[] args)
+        TVal[] vals;
+        TKey[] keys;
+
+        public Gun4Odev5()
         {
-
-            // String anahtarına sahip string değerler tutan dictionary oluşturma.
-            MyDictionary<string, string> dictionary = new MyDictionary<string, string>();
-
-            // Anahtar-Değer verilerini Dictionary'e ekleme. 
-            dictionary.Add("1", "C");
-            dictionary.Add("2", "C++");
-            dictionary.Add("3", "Java");
-            dictionary.Add("4", "Python");
-            dictionary.Add("5", "C#");
-            dictionary.Add("6", "HTML");
-
-            // Dicitonary elemanlarını yazdırma.
-            dictionary.WriteKeyValuePair();
-
-        }
-    }
-
-    class MyDictionary<TKey, TValue>
-    {
-        public List<TKey> keys { get; set; }
-        public List<TValue> values { get; set; }
-
-        public MyDictionary()
-        {
-            this.keys = new List<TKey>();
-            this.values = new List<TValue>();
+            vals = new TVal[0];
+            keys = new TKey[0];
         }
 
-        public void Add(TKey key, TValue value)
+        public void Add(TVal val, TKey key)
         {
-            // Value ne olursa olsun , key unique olmalı. 
-            if (!this.keys.Contains(key))
+            TVal[] tempVals = vals;
+            TKey[] tempKeys = keys;
+
+
+            vals = new TVal[vals.Length + 1];
+            keys = new TKey[keys.Length + 1];
+
+            for (int i = 0; i < tempVals.Length; i++)
             {
-                keys.Add(key);
-                values.Add(value);
+                vals[i] = tempVals[i];
+                keys[i] = tempKeys[i];
+
+
             }
-            else if (this.keys.Contains(key))
-            {
-                Console.WriteLine("This key data '{0}' already exists.", key);
-            }
+            vals[vals.Length - 1] = val;
+            keys[keys.Length - 1] = key;
+
+
+
         }
 
-        public void WriteKeyValuePair()
+        public int Count
         {
-            Console.WriteLine();
-            for (int i = 0; i < keys.Count; i++)
-            {
-                Console.WriteLine("Key: {0} - Value: {1}", this.keys[i], this.values[i]);
-            }
-            Console.WriteLine();
+            get { return vals.Length; }
         }
     }
 }
+
+
+
+
 
 
 
